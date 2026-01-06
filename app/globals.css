@@ -317,3 +317,145 @@ h3 {
     position: relative;
   }
 }
+
+/* ===== Compact Card (Portrait Screenshot View) ===== */
+.compact-card {
+  width: 360px;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 0.75rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.compact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 0.5rem;
+}
+
+.compact-ticker {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #222;
+}
+
+.compact-date {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.7rem;
+  color: #666;
+}
+
+.compact-date-icon {
+  font-size: 0.75rem;
+}
+
+.compact-section {
+  margin-bottom: 0.5rem;
+}
+
+.compact-section-title {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.35rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid #eee;
+}
+
+.compact-section:first-of-type .compact-section-title {
+  border-top: none;
+  padding-top: 0;
+}
+
+.compact-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem 0.75rem;
+}
+
+.compact-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.25rem 0.5rem;
+}
+
+.compact-cell {
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem 0;
+}
+
+.compact-label {
+  font-size: 0.6rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.compact-value {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #222;
+}
+
+.compact-badge-primary {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.compact-badge-success {
+  display: inline-block;
+  background: #d4edda;
+  color: #155724;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.compact-badge-warning {
+  display: inline-block;
+  background: #f8d7da;
+  color: #721c24;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.compact-target-cell {
+  text-align: center;
+}
+
+.compact-target {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.compact-target-value {
+  font-size: 1rem;
+}
+
+.compact-target-gain {
+  font-size: 0.65rem;
+  color: #28a745;
+  font-weight: 500;
+}
