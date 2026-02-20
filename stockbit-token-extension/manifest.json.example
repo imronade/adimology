@@ -8,7 +8,7 @@
   ],
   "host_permissions": [
     "https://*.stockbit.com/*",
-    "https://https://analisasahamkuh.netlify.app/*"
+    "https://YOUR_APP_DOMAIN.netlify.app/*"
   ],
   "background": {
     "service_worker": "background.js"
