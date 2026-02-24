@@ -10,7 +10,7 @@ import PriceGraph from './PriceGraph';
 import BrokerFlowCard from './BrokerFlowCard';
 import EmitenHistoryCard from './EmitenHistoryCard';
 
-import html2canvas from 'html2canvas';
+import * as htmlToImage from 'html-to-image';
 import type { StockInput, StockAnalysisResult, KeyStatsData, AgentStoryResult } from '@/lib/types';
 import { getDefaultDate } from '@/lib/utils';
 
@@ -98,6 +98,7 @@ export default function Calculator({ selectedStock }: CalculatorProps) {
   }, [selectedStock]);
 
   const handleSubmit = async (data: StockInput) => {
+    window.dispatchEvent(new CustomEvent('stockbit-fetch-start'));
     setLoading(true);
     setError(null);
     setResult(null);
@@ -158,6 +159,7 @@ export default function Calculator({ selectedStock }: CalculatorProps) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
+      window.dispatchEvent(new CustomEvent('stockbit-fetch-end'));
     }
   };
 
@@ -232,6 +234,7 @@ export default function Calculator({ selectedStock }: CalculatorProps) {
   const handleAnalyzeStory = async () => {
     if (!result) return;
 
+    window.dispatchEvent(new CustomEvent('stockbit-fetch-start'));
     const emiten = result.input.emiten.toUpperCase();
     setStoryStatus('pending');
 
@@ -255,6 +258,8 @@ export default function Calculator({ selectedStock }: CalculatorProps) {
     } catch (err) {
       console.error('Failed to start analysis:', err);
       setStoryStatus('error');
+    } finally {
+      window.dispatchEvent(new CustomEvent('stockbit-fetch-end'));
     }
   };
 
@@ -272,19 +277,33 @@ export default function Calculator({ selectedStock }: CalculatorProps) {
   };
 
   const handleCopyImage = async () => {
-    const cardElement = document.getElementById('compact-result-card-container');
+    const container = document.getElementById('compact-result-card-container');
+    const cardElement = container?.querySelector('.compact-card') as HTMLElement;
     if (!cardElement) return;
 
     try {
-      const canvas = await html2canvas(cardElement, {
-        backgroundColor: null,
-        scale: 2,
+      // Use html-to-image for much better quality and glassmorphism support
+      const blob = await htmlToImage.toBlob(cardElement, {
+        pixelRatio: 2,
+        cacheBust: true,
+        // Remove backdrop-filter during capture to prevent the "gray layer" effect
+        // Use 'as any' to allow vendor prefixes in the style object
+        style: {
+          backdropFilter: 'none',
+          WebkitBackdropFilter: 'none',
+          background: 'var(--bg-secondary)',
+          borderRadius: '20px',
+        } as any,
+        filter: (node: any) => {
+          // Ignore the footer buttons and any element marked for ignore
+          const exclusionClasses = ['compact-footer'];
+          if (node.classList) {
+            return !exclusionClasses.some(cls => node.classList.contains(cls)) && 
+                   !node.hasAttribute?.('data-html2canvas-ignore');
+          }
+          return true;
+        }
       });
-
-      // Wrap toBlob in a Promise to keep the async chain active for Safari's strict user-gesture checks
-      const blob = await new Promise<Blob | null>((resolve) =>
-        canvas.toBlob(resolve, 'image/png')
-      );
 
       if (!blob) throw new Error('Failed to generate image blob');
 
@@ -338,12 +357,7 @@ export default function Calculator({ selectedStock }: CalculatorProps) {
         hasResult={!!result}
       />
 
-      {loading && (
-        <div className="text-center mt-4">
-          <div className="spinner" style={{ margin: '0 auto' }}></div>
-          <p className="text-secondary mt-2">Fetching data from Stockbit...</p>
-        </div>
-      )}
+      {/* Fetching indicator moved to Navbar */}
 
       {error && (
         <div className="glass-card mt-4" style={{
