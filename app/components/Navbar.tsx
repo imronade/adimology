@@ -55,6 +55,20 @@ const Navbar = () => {
               Calculator
             </Link>
             <Link 
+              href="/screener" 
+              onClick={() => setIsMenuOpen(false)}
+              style={{
+                textDecoration: 'none',
+                color: pathname === '/screener' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                fontWeight: pathname === '/screener' ? 600 : 400,
+                fontSize: '1rem',
+                padding: '0.5rem 0',
+                transition: 'all 0.2s'
+              }}
+            >
+              Screener
+            </Link>
+            <Link 
               href="/history" 
               style={{
                 textDecoration: 'none',
@@ -149,6 +163,20 @@ const Navbar = () => {
               }}
             >
               Calculator
+            </Link>
+            <Link 
+              href="/screener" 
+              onClick={() => setIsMenuOpen(false)}
+              style={{
+                textDecoration: 'none',
+                color: pathname === '/screener' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                fontWeight: pathname === '/screener' ? 600 : 400,
+                fontSize: '1rem',
+                padding: '0.5rem 0',
+                transition: 'all 0.2s'
+              }}
+            >
+              Screener
             </Link>
             <Link 
               href="/history" 
